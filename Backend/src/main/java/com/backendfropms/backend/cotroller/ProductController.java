@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 public class ProductController {
 
     @Autowired
@@ -38,7 +39,6 @@ public class ProductController {
     public ResponseEntity<?> editProduct(@RequestBody Product product, @PathVariable Integer id) {
         return new ResponseEntity<>(productService.editProduct(product, id), HttpStatus.CREATED);
     }
-
 
 
 }

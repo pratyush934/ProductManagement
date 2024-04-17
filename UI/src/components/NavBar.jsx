@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 function NavBarComponent() {
   return (
     <nav
-      className="navbar navbar-expand-lg navbar-light bg-primary "
-      style={{ height: "100px" }}
+      className="navbar navbar-expand-lg navbar-light bg-info"
+      style={{ height: "70px" }}
     >
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
@@ -24,13 +24,18 @@ function NavBarComponent() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" href="#">
+              <Link className="nav-link active" aria-current="page" to={"home"}>
                 Home
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="#">
+              <Link className="nav-link" to={"/addProduct"}>
                 Add Product
+              </Link>
+            </li>
+            <li>
+              <Link className="nav-link" to={"/editProduct"}>
+                Edit Product
               </Link>
             </li>
           </ul>
