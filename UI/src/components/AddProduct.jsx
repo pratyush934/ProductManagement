@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ProductService from "../service/ProductService";
 
 function AddProduct() {
@@ -18,6 +19,8 @@ function AddProduct() {
     status: "",
     price: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -47,6 +50,8 @@ function AddProduct() {
         price: 0,
       };
     });
+
+    navigate("/home")
   };
 
   // console.log(product);

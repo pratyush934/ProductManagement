@@ -1,34 +1,16 @@
 import { useEffect, useState } from "react";
 import ProductService from "../service/ProductService";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
-
-
-  /* 
-  
-  data
-: 
-Array(5)
-0
-: 
-{id: 1, productName: 'Fair and Lovely', description: 'Gora kar dega aapko', status: 'Failed Product', price: 1500}
-1
-: 
-{id: 3, productName: 'batman vs Superman V2', description: 'Exciting hai ye V2', status: 'Successful V2', price: 10000}
-2
-: 
-{id: 4, productName: 'IPhone', description: 'It is classy', status: 'Save', price: 500}
-3
-: 
-{id: 5, productName: 'Samsung Galaxy', description: 'It is great */
-
-
-  const [product, setProdcut] = useState
+  const [product, setProdcut] = useState([]);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const navigate = useNavigate();
 
   const gettingAllList = async () => {
     try {
       const response = await ProductService.getAllProduct();
-      console.log(response);
+      setProdcut(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -36,26 +18,77 @@ Array(5)
 
   useEffect(() => {
     gettingAllList();
-  }, []);
+  }, [isDeleted]);
+
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      setIsDeleted(false);
+    }, 1200);
+
+    return () => clearTimeout(timeId);
+  }, [isDeleted]);
+
+  const editClick = (id) => {
+    console.log(id);
+    navigate("/editProduct/" + id);
+  };
+
+  const deleteClick = async (id) => {
+    try {
+      const response = await ProductService.deleteProduct(id);
+      if (response.data === "Deleted SuccessFully") {
+        setIsDeleted(true);
+      } else {
+        setIsDeleted(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="container mt-4">
-      <table className="table table-success table-striped">
+      {isDeleted && (
+        <div className="alert alert-danger" role="alert">
+          Item is deleted Successfully
+        </div>
+      )}
+      <table className="table table-secondary table-striped">
         <thead>
           <tr className="custom-row">
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">ProductName</th>
+            <th scope="col">Description</th>
+            <th scope="col">Satus</th>
+            <th scope="col">Price</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
-          <tr className="custom-row">
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
+          {product.map((pro) => (
+            <tr className="custom-row" key={pro.id}>
+              <td>{pro.productName}</td>
+              <td>{pro.description}</td>
+              <td>{pro.status}</td>
+              <td>{pro.price}</td>
+              <td>
+                <button
+                  className="btn btn-warning"
+                  onClick={() => editClick(pro.id)}
+                >
+                  Edit
+                </button>
+              </td>
+              <td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => deleteClick(pro.id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

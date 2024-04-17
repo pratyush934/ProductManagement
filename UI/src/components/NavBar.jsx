@@ -33,11 +33,7 @@ function NavBarComponent() {
                 Add Product
               </Link>
             </li>
-            <li>
-              <Link className="nav-link" to={"/editProduct"}>
-                Edit Product
-              </Link>
-            </li>
+            
           </ul>
           <form className="d-flex">
             <input

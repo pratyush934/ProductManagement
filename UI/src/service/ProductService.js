@@ -19,7 +19,7 @@ class ProductService {
     return axios.delete(API_URL + "/deleteProduct/" + id);
   }
 
-  editProdcut(product) {
+  editProduct(product) {
     return axios.post(API_URL + "/edit/" + product.id, product);
   }
 }
